@@ -55,6 +55,8 @@ if __name__ == "__main__":
     parser.add_argument("-u", "--username", help="specify the username")
     parser.add_argument("-p", "--password", help="specify the password")
     parser.add_argument("-w", "--wordlist", help="specify the file containing the password list")
+    parser.add_argument("-o", "--output", help="Specify output file location")
+
 
     args = parser.parse_args()
     host = args.host
@@ -63,14 +65,23 @@ if __name__ == "__main__":
         #do a thing
         password = args.password
         if openSSHConnection(user, password, host):
-            open("credentials.txt", "w").write(f"{user}@{host}:{password}")
+            if args.output:
+                outfile = args.output
+                open(password, "w").write(f"{user}@{host}:{password}")
+            else:
+                print("No output file specified")
+
     elif args.wordlist:
         wordlist = args.wordlist
         passlist = open(wordlist, encoding="latin-1").read().splitlines()
         for password in passlist:
             if openSSHConnection(user, password, host):
-                open("credentials.txt", "w").write(f"{user}@{host}:{password}")
-                break
+                if args.output:
+                    outfile = args.output
+                    open(password, "w").write(f"{user}@{host}:{password}")
+                    break
+                else:
+                    print("No output file specified")
         #read from the file specified and start the for loop
         
 
