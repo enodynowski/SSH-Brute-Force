@@ -50,7 +50,6 @@ def openSSHConnection (username, password, hostname):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    #specifying the 
     parser.add_argument("--host", help="specify the host to brute force")
     parser.add_argument("-u", "--username", help="specify the username")
     parser.add_argument("-p", "--password", help="specify the password")
@@ -62,12 +61,11 @@ if __name__ == "__main__":
     host = args.host
     user = args.username
     if args.password:
-        #do a thing
         password = args.password
         if openSSHConnection(user, password, host):
             if args.output:
                 outfile = args.output
-                open(password, "w").write(f"{user}@{host}:{password}")
+                open(outfile, "w").write(f"{user}@{host}:{password}")
             else:
                 print("No output file specified")
 
@@ -78,12 +76,7 @@ if __name__ == "__main__":
             if openSSHConnection(user, password, host):
                 if args.output:
                     outfile = args.output
-                    open(password, "w").write(f"{user}@{host}:{password}")
+                    open(outfile, "w").write(f"{user}@{host}:{password}")
                     break
                 else:
                     print("No output file specified")
-        #read from the file specified and start the for loop
-        
-
-    #put the for loop here, and parse the arguments
-    #I'll want -h for hostname, -u for username, -p for password, -w for wordlist
